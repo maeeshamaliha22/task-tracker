@@ -51,6 +51,28 @@ export default function TaskTracker() {
         </button>
       </div>
 
+      {/* Adding task count */}
+      <div className="flex gap-2 mt-4 mb-4">
+        <div className="bg-blue-100 px-4 py-2 rounded">
+          <span className="font-bold text-blue-800">{tasks.length}</span>
+          <span className="text-blue-600 ml-2">Total</span>
+        </div>
+
+        <div className="bg-orange-100 px-4 py-2 rounded">
+          <span className="font-bold text-orange-800">
+            {tasks.filter((t) => !t.completed).length}
+          </span>
+          <span className="text-orange-600 ml-2">Active</span>
+        </div>
+
+        <div className="bg-green-100 px-4 py-2 rounded">
+          <span className="font-bold text-green-800">
+            {tasks.filter((t) => t.completed).length}
+          </span>
+          <span className="text-green-600 ml-2">Done</span>
+        </div>
+      </div>
+
       {/* Task List Container */}
       <div className="bg-white rounded-md shadow-md overflow-hidden mt-4">
         {tasks.length === 0 ? (
