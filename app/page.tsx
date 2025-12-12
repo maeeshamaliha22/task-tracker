@@ -26,6 +26,14 @@ export default function TaskTracker() {
     setTaskText(""); // Clear the input
   };
 
+  const toggleTask = (id: number) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
   return (
     <div>
       <h1 className="text-4xl font-bold text-gray-100 bg-blue-400 m-auto mb-2">
@@ -87,9 +95,32 @@ export default function TaskTracker() {
             {tasks.map((task) => (
               <li
                 key={task.id}
-                className="p-4 hover:bg-gray-50 transition-colors"
+                className="p-4 hover:bg-gray-50 transition-colors flex items-center gap-3"
               >
-                <p className="text-lg">{task.title}</p>
+                {/* Checkbox */}
+                <button
+                  onClick={() => toggleTask(task.id)}
+                  className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                    task.completed
+                      ? "bg-green-500 border-green-500"
+                      : "border-gray-300"
+                  }`}
+                >
+                  {task.completed && (
+                    <span className="text-white text-sm">✓</span>
+                  )}
+                </button>
+
+                {/* Task text */}
+                <p
+                  className={`text-lg  flex -1 ${
+                    task.completed
+                      ? "line-through text-gray-400"
+                      : "text-gray-800"
+                  }`}
+                >
+                  {task.title}
+                </p>
               </li>
             ))}
           </ul>
