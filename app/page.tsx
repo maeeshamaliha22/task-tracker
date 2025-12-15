@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Task {
   id: number;
@@ -11,6 +11,23 @@ interface Task {
 export default function TaskTracker() {
   const [taskText, setTaskText] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  // Load tasks when app first loads
+  useEffect(() => {
+    const savedTasks = localStorage.getItem("my-tasks");
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save tasks whenever they change
+    if (tasks.length > 0) {
+      localStorage.setItem("my-tasks", JSON.stringify(tasks));
+    } else {
+      localStorage.removeItem("my-tasks");
+    }
+  }, [tasks]); // Run whenever 'tasks' changes
 
   const addTask = () => {
     if (taskText.trim() === "") return; // Don't add empty tasks
@@ -136,6 +153,17 @@ export default function TaskTracker() {
               </li>
             ))}
           </ul>
+        )}
+      </div>
+      {/* Clear Completed Button */}
+      <div>
+        {tasks.filter((t) => t.completed).length > 0 && ( // Check if any tasks are marked as completed
+          <button
+            onClick={() => setTasks(tasks.filter((t) => !t.completed))}
+            className="mt-4 text-red-500 hover:text-red-700 text-sm"
+          >
+            clear {tasks.filter((t) => t.completed).length} completed tasks
+          </button>
         )}
       </div>
     </div>
