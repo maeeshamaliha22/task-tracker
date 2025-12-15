@@ -34,6 +34,10 @@ export default function TaskTracker() {
     );
   };
 
+  const deleteTask = (id: number) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
     <div>
       <h1 className="text-4xl font-bold text-gray-100 bg-blue-400 m-auto mb-2">
@@ -121,6 +125,14 @@ export default function TaskTracker() {
                 >
                   {task.title}
                 </p>
+
+                {/* Delete button */}
+                <button
+                  onClick={() => deleteTask(task.id)}
+                  className="text-red-500 hover:text-red-700 text-xl py-2 px-2 rounded hover:bg-red-50"
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
