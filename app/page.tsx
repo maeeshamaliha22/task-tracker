@@ -55,7 +55,7 @@ export default function TaskTracker() {
     // Filter by search query
     if (
       searchQuery &&
-      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+      !task.title.toLowerCase().includes(searchQuery.toLowerCase())
     )
       return false;
     // Task passes all filters
@@ -255,7 +255,7 @@ export default function TaskTracker() {
                   </div>
                 ) : (
                   /* ========== NORMAL MODE ========== */
-                  <div>
+                  <div className="flex items-center gap-3">
                     {/* Checkbox */}
                     <button
                       onClick={() => toggleTask(task.id)}
