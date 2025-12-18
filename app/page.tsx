@@ -11,6 +11,8 @@ interface Task {
 export default function TaskTracker() {
   const [taskText, setTaskText] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
 
   // Load tasks when app first loads
   useEffect(() => {
@@ -42,6 +44,21 @@ export default function TaskTracker() {
     setTasks([newTask, ...tasks]); // Add to the beginning of the array
     setTaskText(""); // Clear the input
   };
+
+  // Filter tasks based on search AND filter
+  const filteredtasks = tasks.filter((task) => {
+    // Filter by completion status
+    if (filter === "active" && task.completed) return false;
+    if (filter === "completed" && !task.completed) return false;
+    // Filter by search query
+    if (
+      searchQuery &&
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+      return false;
+    // Task passes all filters
+    return true;
+  });
 
   const toggleTask = (id: number) => {
     setTasks(
@@ -80,6 +97,27 @@ export default function TaskTracker() {
         </button>
       </div>
 
+      {/* Search Bar */}
+      <div className="relative">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+          }}
+          placeholder="Search tasks..."
+          className="w-full mt-4 px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-3 top-7 text-gray-400 hover:text-gray-600"
+          >
+            x
+          </button>
+        )}
+      </div>
+
       {/* Adding task count */}
       <div className="flex gap-2 mt-4 mb-4">
         <div className="bg-blue-100 px-4 py-2 rounded">
@@ -102,18 +140,55 @@ export default function TaskTracker() {
         </div>
       </div>
 
+      {/* Filter Buttons */}
+      <div className="flex gap-2 mt-4 mb-4">
+        <button
+          onClick={() => setFilter("all")}
+          className={`px-4 py-2 rounded-lg ${
+            filter === "all"
+              ? "bg-blue-500 text-white"
+              : "bg-blue-100  hover:bg-blue-200"
+          }`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("active")}
+          className={`px-4 py-2 rounded-lg ${
+            filter === "active"
+              ? "bg-blue-500 text-white"
+              : "bg-blue-100  hover:bg-blue-200"
+          }`}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => setFilter("completed")}
+          className={`px-4 py-2 rounded-lg ${
+            filter === "completed"
+              ? "bg-blue-500 text-white"
+              : "bg-blue-100  hover:bg-blue-200"
+          }`}
+        >
+          Completed
+        </button>
+      </div>
+
       {/* Task List Container */}
       <div className="bg-white rounded-md shadow-md overflow-hidden mt-4">
-        {tasks.length === 0 ? (
+        {filteredtasks.length === 0 ? (
           // Show this if no tasks
           <div className="p-8 text-center text-gray-500">
-            <p className="text-xl">No tasks yet!</p>
-            <p className="text-sm mt-2">Add your first task above</p>
+            {searchQuery ? (
+              <p className="text-xl">No tasks found for "{searchQuery}"</p>
+            ) : (
+              <p className="text-xl">No tasks yet!</p>
+            )}
           </div>
         ) : (
           // Show this if tasks exist
           <ul className="divide-y divide-gray-200">
-            {tasks.map((task) => (
+            {filteredtasks.map((task) => (
               <li
                 key={task.id}
                 className="p-4 hover:bg-gray-50 transition-colors flex items-center gap-3"
