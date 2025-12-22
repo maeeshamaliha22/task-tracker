@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Header from "./components/Header";
 
 interface Task {
   id: number;
@@ -124,12 +125,7 @@ export default function TaskTracker() {
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* ========== HEADER ========== */}
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600 mb-2">
-            Task Tracker
-          </h1>
-          <p className="text-gray-600">Stay organized, get things done</p>
-        </header>
+        <Header />
 
         {/* ========== ADD TASK SECTION ========== */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
