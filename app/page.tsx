@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import TaskInput from "./components/TaskInput";
+import SearchFilter from "./components/SearchFilter";
+import Statistics from "./components/Statistics";
 
 interface Task {
   id: number;
@@ -140,41 +142,19 @@ export default function TaskTracker() {
         {/* ========== SEARCH SECTION ========== */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
           {/* Search Bar */}
-          <div className="relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
-              placeholder="Search tasks..."
-              className="w-full px-4 py-3 pl-5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-              >
-                x
-              </button>
-            )}
-          </div>
+          <SearchFilter
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
         </div>
 
         {/* ========== STATISTICS CARDS ========== */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mt-2 border border-gray-100 grid grid-cols-3 gap-4">
-          <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-xl p-4 flex gap-2 border border-blue-200">
-            <span className="font-bold text-blue-600">{totalCount}</span>
-            <span className="text-blue-700">Total</span>
-          </div>
-          <div className="bg-linear-to-br from-orange-50 to-orange-100 rounded-xl p-4 flex gap-2 border border-orange-200">
-            <span className="font-bold text-orange-800">{activeCount}</span>
-            <span className="text-orange-600">Active</span>
-          </div>
-          <div className="bg-linear-to-br from-green-50 to-green-100 rounded-xl p-4 flex gap-2 border border-green-200">
-            <span className="font-bold text-green-800">{completedCount}</span>
-            <span className="text-green-600">Done</span>
-          </div>
+        <div className="bg-white rounded-2xl shadow-lg p-6 mt-2 border border-gray-100">
+          <Statistics
+            totalCount={totalCount}
+            activeCount={activeCount}
+            completedCount={completedCount}
+          />
         </div>
 
         {/* ========== FILTER SECTION ========== */}
