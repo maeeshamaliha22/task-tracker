@@ -1,11 +1,14 @@
 "use client";
 
-type Props = {
+interface SearchFilterProps {
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-};
+}
 
-export default function SearchFilter({ searchQuery, setSearchQuery }: Props) {
+export default function SearchFilter({
+  searchQuery,
+  setSearchQuery,
+}: SearchFilterProps) {
   return (
     <div className="relative">
       <input
