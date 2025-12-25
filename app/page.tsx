@@ -1,23 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Task, FilterType } from "./types/task";
 import Header from "./components/Header";
 import TaskInput from "./components/TaskInput";
 import SearchFilter from "./components/SearchFilter";
 import Statistics from "./components/Statistics";
-
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-}
 
 export default function TaskTracker() {
   // ========== STATE MANAGEMENT ==========
   const [taskText, setTaskText] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
+  const [filter, setFilter] = useState<FilterType>("all");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
 
@@ -56,7 +51,7 @@ export default function TaskTracker() {
   };
 
   // Filter tasks based on search AND filter
-  const filteredtasks = tasks.filter((task) => {
+  const filteredTasks = tasks.filter((task) => {
     // Filter by completion status
     if (filter === "active" && task.completed) return false;
     if (filter === "completed" && !task.completed) return false;
@@ -131,13 +126,11 @@ export default function TaskTracker() {
         <Header />
 
         {/* ========== ADD TASK SECTION ========== */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
-          <TaskInput
-            taskText={taskText}
-            setTaskText={setTaskText}
-            addTask={addTask}
-          />
-        </div>
+        <TaskInput
+          taskText={taskText}
+          setTaskText={setTaskText}
+          addTask={addTask}
+        />
 
         {/* ========== SEARCH SECTION ========== */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
@@ -149,13 +142,11 @@ export default function TaskTracker() {
         </div>
 
         {/* ========== STATISTICS CARDS ========== */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mt-2 border border-gray-100">
-          <Statistics
-            totalCount={totalCount}
-            activeCount={activeCount}
-            completedCount={completedCount}
-          />
-        </div>
+        <Statistics
+          totalCount={totalCount}
+          activeCount={activeCount}
+          completedCount={completedCount}
+        />
 
         {/* ========== FILTER SECTION ========== */}
         <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 flex gap-2 mt-4 mb-4">
@@ -193,7 +184,7 @@ export default function TaskTracker() {
 
         {/* ========== TASK LIST CONTAINER ========== */}
         <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 overflow-hidden mt-4">
-          {filteredtasks.length === 0 ? (
+          {filteredTasks.length === 0 ? (
             // Show this if no tasks
             <div className="p-8 text-center text-gray-500">
               {searchQuery ? (
@@ -205,7 +196,7 @@ export default function TaskTracker() {
           ) : (
             // Show this if tasks exist
             <ul className="divide-y divide-gray-200">
-              {filteredtasks.map((task) => (
+              {filteredTasks.map((task) => (
                 <li
                   key={task.id}
                   className="p-4 hover:bg-gray-50 transition-colors flex items-center gap-3"
