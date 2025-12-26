@@ -26,10 +26,7 @@ export default function TaskItem({
   deleteTask,
 }: TaskItemProps) {
   return (
-    <li
-      //   key={task.id}
-      className="p-4 hover:bg-gray-50 transition-colors flex items-center gap-3"
-    >
+    <li className="p-4 hover:bg-gray-50 transition-colors flex items-center gap-3">
       {editingId === task.id ? (
         /* ========== EDIT MODE ========== */
         <div className="flex items-center gap-3">
