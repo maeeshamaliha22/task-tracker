@@ -1,10 +1,12 @@
 "use client";
 
+// ========== TYPES ==========
 interface SearchFilterProps {
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// ========== COMPONENT ==========
 export default function SearchFilter({
   searchQuery,
   setSearchQuery,
